@@ -14,7 +14,7 @@ const STOCKS: Stock[] = [
   { symbol: 'ABUK', name: 'أبو قير للأسمدة', price: 55.3, pct: -0.81, high: 56.0, low: 54.8, vol: '3.2M', desc: 'من أكبر شركات الأسمدة.' },
   { symbol: 'TMGH', name: 'طلعت مصطفى', price: 62.3, pct: 3.49, high: 63.1, low: 60.2, vol: '8.7M', desc: 'أكبر مطور عقاري.' },
   { symbol: 'HRHO', name: 'هيرميس', price: 18.7, pct: 0.81, high: 18.9, low: 18.4, vol: '5.1M', desc: 'بنك الاستثمار الرائد.' },
-  { symbol: 'ETEL', name: 'المصرية للاتصالات', price: 32.1, pct: -0.62, high: 32.5, low: 31.8, vol: '2.4M', desc: 'المشغل الرئيسي للاتصالات.' },
+  { symbol: 'ETEL', name: 'المصرية للاتصالات', price: 32.1, pct: -0.62, high: 32.5, low: 31.8, vol: '2.4M', desc: 'المشغل الرئيسي.' },
   { symbol: 'FWRY', name: 'فوري', price: 8.95, pct: 4.07, high: 9.10, low: 8.60, vol: '15.3M', desc: 'أكبر منصة مدفوعات.' },
 ]
 const EGX = [28400, 28420, 28390, 28450, 28480, 28430, 28510, 28490, 28530, 28600, 28550]
@@ -54,6 +54,10 @@ export default function App() {
   ])
   const [newTitle, setNewTitle] = useState('')
   const [newTag, setNewTag] = useState('تحليل')
+  // جديد للتعديل
+  const [editingId, setEditingId] = useState<any>(null)
+  const [editTitle, setEditTitle] = useState('')
+  const [editTag, setEditTag] = useState('تحليل')
 
   useEffect(() => {
     const t = localStorage.getItem('borsa-theme'); if (t) setDark(t==='dark')
@@ -94,58 +98,79 @@ export default function App() {
     if (supabase) await supabase.from('articles').delete().eq('id', id)
   }
 
-  // لو حد مش ادمن وحاول يدخل /admin
+  const startEdit = (a: any) => {
+    setEditingId(a.id)
+    setEditTitle(a.title)
+    setEditTag(a.tag)
+  }
+
+  const saveEdit = async () => {
+    if (!isAdmin || !editingId) return
+    if (!editTitle.trim()) return
+    setArticles(articles.map((a:any)=> a.id===editingId ? {...a, title: editTitle, tag: editTag} : a))
+    if (supabase) {
+      const { error } = await supabase.from('articles').update({ title: editTitle, tag: editTag }).eq('id', editingId)
+      if (error) alert(error.message)
+    }
+    setEditingId(null)
+  }
+
   if (page==='admin' && !isAdmin) {
     return (
-      <div dir="rtl" style={{ background: dark?'#0a0a0b':'#f5f5f7', color: dark?'white':'black', minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'system-ui' }}>
-        <div style={{ textAlign:'center' }}>
-          <div style={{ fontSize:'60px' }}>🔒</div>
-          <h1 style={{ fontWeight:900, marginTop:'16px' }}>غير مصرح</h1>
-          <p style={{ opacity:0.5, marginTop:'8px' }}>الصفحة دي للأدمن فقط</p>
-          <button onClick={()=>setPage('home')} style={{ marginTop:'20px', padding:'10px 20px', borderRadius:'20px', background:'#22c55e', color:'black', border:'none', fontWeight:700, cursor:'pointer' }}>رجوع للرئيسية</button>
-        </div>
+      <div dir="rtl" style={{ background: dark?'#0a0a0b':'#f5f5f7', color: dark?'white':'black', minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center' }}>
+        <div style={{ textAlign:'center' }}><div style={{ fontSize:'60px' }}>🔒</div><h1 style={{ fontWeight:900, marginTop:'16px' }}>غير مصرح</h1><button onClick={()=>setPage('home')} style={{ marginTop:'20px', padding:'10px 20px', borderRadius:'20px', background:'#22c55e', color:'black', border:'none', fontWeight:700, cursor:'pointer' }}>رجوع</button></div>
       </div>
     )
   }
 
-  // صفحة الادمن المنفصلة
   if (page==='admin' && isAdmin) {
     return (
       <div dir="rtl" style={{ background: dark?'#0a0a0b':'#f5f5f7', color: dark?'white':'black', minHeight:'100vh', fontFamily:'system-ui' }}>
         <div style={{ maxWidth:'800px', margin:'0 auto', padding:'24px' }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'32px' }}>
-            <div style={{ display:'flex', gap:'12px', alignItems:'center' }}>
-              <div style={{ width:'48px', height:'48px', borderRadius:'14px', background:'#22c55e', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'24px' }}>👑</div>
-              <div><h1 style={{ fontSize:'24px', fontWeight:900 }}>لوحة تحكم الأدمن</h1><p style={{ fontSize:'12px', opacity:0.5 }}>أهلا {ADMIN_EMAIL}</p></div>
-            </div>
-            <button onClick={()=>setPage('home')} style={{ padding:'10px 20px', borderRadius:'20px', background: dark?'white':'black', color: dark?'black':'white', border:'none', fontWeight:700, cursor:'pointer' }}>← رجوع للموقع</button>
-          </div>
-
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'16px', marginBottom:'24px' }}>
-            <div style={{ background: dark?'#141415':'white', borderRadius:'16px', padding:'16px' }}><div style={{ fontSize:'11px', opacity:0.5 }}>إجمالي التحليلات</div><div style={{ fontSize:'28px', fontWeight:900 }}>{articles.length}</div></div>
-            <div style={{ background: dark?'#141415':'white', borderRadius:'16px', padding:'16px' }}><div style={{ fontSize:'11px', opacity:0.5 }}>المستخدمين</div><div style={{ fontSize:'28px', fontWeight:900 }}>1</div></div>
-            <div style={{ background: dark?'#141415':'white', borderRadius:'16px', padding:'16px' }}><div style={{ fontSize:'11px', opacity:0.5 }}>حالة السوق</div><div style={{ fontSize:'16px', fontWeight:700, color: market.open?'#22c55e':'#ef4444' }}>{market.text}</div></div>
+            <div style={{ display:'flex', gap:'12px', alignItems:'center' }}><div style={{ width:'48px', height:'48px', borderRadius:'14px', background:'#22c55e', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'24px' }}>👑</div><div><h1 style={{ fontSize:'24px', fontWeight:900 }}>لوحة تحكم الأدمن</h1><p style={{ fontSize:'12px', opacity:0.5 }}>{ADMIN_EMAIL} • الخطوة 1 من 3</p></div></div>
+            <button onClick={()=>setPage('home')} style={{ padding:'10px 20px', borderRadius:'20px', background: dark?'white':'black', color: dark?'black':'white', border:'none', fontWeight:700, cursor:'pointer' }}>← الموقع</button>
           </div>
 
           <div style={{ background: dark?'#141415':'white', borderRadius:'20px', padding:'20px', marginBottom:'24px', border:'2px solid #22c55e' }}>
             <h3 style={{ fontWeight:800, marginBottom:'12px' }}>✍️ نشر تحليل جديد</h3>
-            <input value={newTitle} onChange={e=>setNewTitle(e.target.value)} placeholder="اكتب عنوان التحليل هنا..." style={{ width:'100%', padding:'14px 16px', borderRadius:'12px', border:`1px solid ${dark?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.1)'}`, background: dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.02)', color:'inherit', outline:'none', fontSize:'14px', boxSizing:'border-box' }} />
+            <input value={newTitle} onChange={e=>setNewTitle(e.target.value)} placeholder="اكتب عنوان التحليل..." style={{ width:'100%', padding:'14px 16px', borderRadius:'12px', border:`1px solid ${dark?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.1)'}`, background: dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.02)', color:'inherit', outline:'none', boxSizing:'border-box' }} />
             <div style={{ display:'flex', gap:'12px', marginTop:'12px' }}>
-              <select value={newTag} onChange={e=>setNewTag(e.target.value)} style={{ padding:'12px 16px', borderRadius:'12px', border:`1px solid ${dark?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.1)'}`, background: dark?'#141415':'white' }}><option>تحليل</option><option>توصية</option><option>خبر</option></select>
-              <button onClick={addArticle} style={{ flex:1, padding:'12px', borderRadius:'12px', background:'#22c55e', color:'black', border:'none', fontWeight:900, cursor:'pointer', fontSize:'14px' }}>نشر الآن 🚀</button>
+              <select value={newTag} onChange={e=>setNewTag(e.target.value)} style={{ padding:'12px 16px', borderRadius:'12px' }}><option>تحليل</option><option>توصية</option><option>خبر</option></select>
+              <button onClick={addArticle} style={{ flex:1, padding:'12px', borderRadius:'12px', background:'#22c55e', color:'black', border:'none', fontWeight:900, cursor:'pointer' }}>نشر الآن 🚀</button>
             </div>
           </div>
 
           <div style={{ background: dark?'#141415':'white', borderRadius:'20px', padding:'20px' }}>
-            <h3 style={{ fontWeight:800, marginBottom:'16px' }}>📋 كل التحليلات ({articles.length})</h3>
+            <h3 style={{ fontWeight:800, marginBottom:'16px' }}>📋 كل التحليلات ({articles.length}) - دوس تعديل</h3>
             <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
               {articles.map((a:any)=>(
-                <div key={a.id} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'12px', borderRadius:'12px', background: dark?'rgba(255,255,255,0.03)':'rgba(0,0,0,0.03)' }}>
-                  <div><div style={{ fontSize:'13px', fontWeight:700 }}>{a.title}</div><div style={{ fontSize:'11px', opacity:0.5, marginTop:'4px' }}>{a.tag} • {a.created_at?.toString().slice(0,16) || 'الآن'}</div></div>
-                  <button onClick={()=>deleteArticle(a.id)} style={{ padding:'6px 12px', borderRadius:'8px', background:'rgba(239,68,68,0.1)', color:'#ef4444', border:'none', cursor:'pointer', fontSize:'12px', fontWeight:700 }}>حذف</button>
+                <div key={a.id} style={{ padding:'14px', borderRadius:'12px', background: editingId===a.id ? 'rgba(34,197,94,0.1)' : dark?'rgba(255,255,255,0.03)':'rgba(0,0,0,0.03)', border: editingId===a.id ? '1px solid #22c55e' : '1px solid transparent' }}>
+                  {editingId===a.id ? (
+                    <div>
+                      <input value={editTitle} onChange={e=>setEditTitle(e.target.value)} style={{ width:'100%', padding:'10px', borderRadius:'8px', border:'1px solid #22c55e', boxSizing:'border-box' }} />
+                      <div style={{ display:'flex', gap:'8px', marginTop:'8px' }}>
+                        <select value={editTag} onChange={e=>setEditTag(e.target.value)} style={{ padding:'8px', borderRadius:'8px' }}><option>تحليل</option><option>توصية</option><option>خبر</option></select>
+                        <button onClick={saveEdit} style={{ flex:1, padding:'8px', borderRadius:'8px', background:'#22c55e', color:'black', border:'none', fontWeight:700, cursor:'pointer' }}>حفظ ✅</button>
+                        <button onClick={()=>setEditingId(null)} style={{ padding:'8px 12px', borderRadius:'8px', background: dark?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.1)', border:'none', cursor:'pointer' }}>إلغاء</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                      <div><div style={{ fontSize:'13px', fontWeight:700 }}>{a.title}</div><div style={{ fontSize:'11px', opacity:0.5 }}>{a.tag} • {a.created_at?.toString().slice(0,16) || 'الآن'}</div></div>
+                      <div style={{ display:'flex', gap:'6px' }}>
+                        <button onClick={()=>startEdit(a)} style={{ padding:'6px 12px', borderRadius:'8px', background:'rgba(59,130,246,0.15)', color:'#60a5fa', border:'none', cursor:'pointer', fontSize:'12px', fontWeight:700 }}>تعديل</button>
+                        <button onClick={()=>deleteArticle(a.id)} style={{ padding:'6px 12px', borderRadius:'8px', background:'rgba(239,68,68,0.1)', color:'#ef4444', border:'none', cursor:'pointer', fontSize:'12px' }}>حذف</button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
+          </div>
+          <div style={{ marginTop:'24px', padding:'16px', borderRadius:'16px', background:'rgba(34,197,94,0.1)', border:'1px dashed #22c55e' }}>
+            <div style={{ fontSize:'12px', fontWeight:700, color:'#22c55e' }}>✅ الخطوة 1 خلصت - جرب تعديل اي مقال!</div>
+            <div style={{ fontSize:'11px', opacity:0.6, marginTop:'4px' }}>بعد ما تجرب، قولي "تمام" وندخل الخطوة 2: صفحة السهم Pro</div>
           </div>
         </div>
       </div>
@@ -187,7 +212,6 @@ export default function App() {
               <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="الإيميل" style={{ padding:'12px 16px', borderRadius:'12px', border:`1px solid ${dark?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.1)'}`, background: dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.02)', color:'inherit', outline:'none' }} />
               <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="الباسورد" style={{ padding:'12px 16px', borderRadius:'12px', border:`1px solid ${dark?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.1)'}`, background: dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.02)', color:'inherit', outline:'none' }} />
               <button onClick={handleAuth} disabled={loading} style={{ padding:'12px', borderRadius:'12px', background:'#22c55e', color:'black', border:'none', fontWeight:800, cursor:'pointer' }}>{loading?'...':authMode==='login'?'دخول':'إنشاء حساب'}</button>
-              <button onClick={()=>setAuthMode(authMode==='login'?'signup':'login')} style={{ background:'none', border:'none', fontSize:'12px', opacity:0.6, cursor:'pointer', color:'inherit' }}>{authMode==='login'?'معندكش حساب؟ إنشاء حساب':'عندك حساب؟ دخول'}</button>
             </div>
           </div>
         </div>
@@ -214,7 +238,7 @@ export default function App() {
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(180px, 1fr))', gap:'16px' }}>
               {STOCKS.map((s) => (
-                <div key={s.symbol} onClick={()=>setSelected(s)} style={{ background: dark?'#141415':'white', borderRadius:'20px', padding:'16px', cursor:'pointer', border:'1px solid transparent' }}>
+                <div key={s.symbol} onClick={()=>setSelected(s)} style={{ background: dark?'#141415':'white', borderRadius:'20px', padding:'16px', cursor:'pointer' }}>
                   <div style={{ display:'flex', justifyContent:'space-between' }}><span style={{ fontWeight:700 }}>{s.symbol}</span><span style={{ fontSize:'11px', padding:'2px 8px', borderRadius:'10px', background: s.pct>=0?'rgba(34,197,94,0.15)':'rgba(239,68,68,0.15)', color: s.pct>=0?'#22c55e':'#ef4444' }}>{s.pct}%</span></div>
                   <div style={{ fontSize:'11px', opacity:0.4, marginTop:'8px' }}>{s.name}</div>
                   <div style={{ fontSize:'22px', fontWeight:800, marginTop:'12px' }}>{s.price} ج.م</div>
@@ -223,17 +247,14 @@ export default function App() {
             </div>
           </div>
           <div style={{ display:'flex', flexDirection:'column', gap:'24px' }}>
+            <div style={{ background: dark?'#141415':'white', borderRadius:'24px', padding:'20px' }}><div style={{ fontWeight:700 }}>محفظتك</div><div style={{ fontSize:'32px', fontWeight:900, marginTop:'8px' }}>124,530 ج.م</div></div>
             <div style={{ background: dark?'#141415':'white', borderRadius:'24px', padding:'20px' }}>
-              <div style={{ fontWeight:700 }}>محفظتك</div>
-              <div style={{ fontSize:'32px', fontWeight:900, marginTop:'8px' }}>124,530 ج.م</div>
-            </div>
-            <div style={{ background: dark?'#141415':'white', borderRadius:'24px', padding:'20px' }}>
-              <div style={{ fontWeight:700, display:'flex', alignItems:'center', gap:'8px' }}><span style={{ width:'8px', height:'8px', background:'#22c55e', borderRadius:'50%', display:'inline-block' }}></span>أحدث التحليلات <span style={{ fontSize:'10px', background:'#22c55e', color:'black', padding:'2px 6px', borderRadius:'8px', fontWeight:800 }}>LIVE</span></div>
+              <div style={{ fontWeight:700 }}>أحدث التحليلات</div>
               <div style={{ marginTop:'20px', display:'flex', flexDirection:'column', gap:'16px' }}>
                 {articles.map((a:any)=>(
                   <div key={a.id} style={{ paddingBottom:'12px', borderBottom:`1px solid ${dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.05)'}` }}>
-                    <div style={{ display:'flex', gap:'6px' }}><span style={{ fontSize:'10px', padding:'2px 8px', borderRadius:'10px', background:'rgba(59,130,246,0.15)', color:'#60a5fa' }}>{a.tag}</span><span style={{ fontSize:'10px', opacity:0.4 }}>{a.created_at?.toString().slice(0,16) || ''}</span></div>
-                    <div style={{ fontSize:'13px', fontWeight:700, marginTop:'6px' }}>{a.title}</div>
+                    <div style={{ fontSize:'13px', fontWeight:700 }}>{a.title}</div>
+                    <div style={{ fontSize:'11px', opacity:0.5, marginTop:'4px' }}>{a.tag}</div>
                   </div>
                 ))}
               </div>
