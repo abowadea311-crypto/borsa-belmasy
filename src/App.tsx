@@ -10,13 +10,14 @@ const ADMIN_EMAIL = 'abowadea311@gmail.com'
 
 type Stock = { symbol: string; name: string; price: number; pct: number; high: number; low: number; open: number; vol: string; cap: string; pe: string; desc: string; about: string }
 const STOCKS: Stock[] = [
-  { symbol: 'COMI', name: 'البنك التجاري الدولي', price: 85.5, pct: 1.42, high: 86.2, low: 84.1, open: 84.5, vol: '12.5M', cap: '89.2B', pe: '8.2', desc: 'أكبر بنك قطاع خاص في مصر، يعتبر مؤشر للسوق كله.', about: 'البنك التجاري الدولي (CIB) هو أكبر بنك خاص في مصر من حيث الأصول. تأسس عام 1975 ويقدم خدمات مصرفية للأفراد والشركات. يعتبر سهمه الأكثر سيولة في البورصة المصرية.' },
-  { symbol: 'ABUK', name: 'أبو قير للأسمدة', price: 55.3, pct: -0.81, high: 56.0, low: 54.8, open: 55.8, vol: '3.2M', cap: '45.1B', pe: '6.5', desc: 'من أكبر شركات الأسمدة في مصر والشرق الأوسط.', about: 'شركة أبو قير للأسمدة والصناعات الكيماوية هي واحدة من أكبر منتجي الأسمدة النيتروجينية في مصر وأفريقيا. تمتلك مصانع ضخمة في الإسكندرية.' },
-  { symbol: 'TMGH', name: 'طلعت مصطفى', price: 62.3, pct: 3.49, high: 63.1, low: 60.2, open: 60.5, vol: '8.7M', cap: '72.3B', pe: '12.4', desc: 'أكبر مطور عقاري في مصر.', about: 'مجموعة طلعت مصطفى القابضة هي أكبر شركة تطوير عقاري في مصر، تمتلك مشروعات مدينتي والرحاب ونور.' },
-  { symbol: 'HRHO', name: 'هيرميس', price: 18.7, pct: 0.81, high: 18.9, low: 18.4, open: 18.5, vol: '5.1M', cap: '18.9B', pe: '9.1', desc: 'بنك الاستثمار الرائد.', about: 'المجموعة المالية هيرميس هي بنك الاستثمار الرائد في الشرق الأوسط وشمال أفريقيا، تقدم خدمات الوساطة وإدارة الأصول.' },
-  { symbol: 'ETEL', name: 'المصرية للاتصالات', price: 32.1, pct: -0.62, high: 32.5, low: 31.8, open: 32.3, vol: '2.4M', cap: '54.7B', pe: '7.3', desc: 'المشغل الرئيسي للاتصالات.', about: 'المصرية للاتصالات هي الشركة الحكومية المشغلة لخدمات الهاتف الثابت والمحمول والإنترنت في مصر، تمتلك حصة كبيرة في فودافون مصر.' },
-  { symbol: 'FWRY', name: 'فوري', price: 8.95, pct: 4.07, high: 9.10, low: 8.60, open: 8.65, vol: '15.3M', cap: '15.2B', pe: '22.1', desc: 'أكبر منصة مدفوعات.', about: 'شركة فوري هي أكبر منصة مدفوعات إلكترونية في مصر، تقدم خدمات دفع الفواتير والشحن والمشتريات عبر شبكة ضخمة من المنافذ.' },
+  { symbol: 'COMI', name: 'البنك التجاري الدولي', price: 85.5, pct: 1.42, high: 86.2, low: 84.1, open: 84.5, vol: '12.5M', cap: '89.2B', pe: '8.2', desc: 'أكبر بنك قطاع خاص في مصر.', about: 'البنك التجاري الدولي (CIB) هو أكبر بنك خاص في مصر من حيث الأصول. تأسس عام 1975 ويقدم خدمات مصرفية للأفراد والشركات.' },
+  { symbol: 'ABUK', name: 'أبو قير للأسمدة', price: 55.3, pct: -0.81, high: 56.0, low: 54.8, open: 55.8, vol: '3.2M', cap: '45.1B', pe: '6.5', desc: 'من أكبر شركات الأسمدة.', about: 'شركة أبو قير للأسمدة والصناعات الكيماوية هي واحدة من أكبر منتجي الأسمدة النيتروجينية في مصر.' },
+  { symbol: 'TMGH', name: 'طلعت مصطفى', price: 62.3, pct: 3.49, high: 63.1, low: 60.2, open: 60.5, vol: '8.7M', cap: '72.3B', pe: '12.4', desc: 'أكبر مطور عقاري.', about: 'مجموعة طلعت مصطفى القابضة هي أكبر شركة تطوير عقاري في مصر.' },
+  { symbol: 'HRHO', name: 'هيرميس', price: 18.7, pct: 0.81, high: 18.9, low: 18.4, open: 18.5, vol: '5.1M', cap: '18.9B', pe: '9.1', desc: 'بنك الاستثمار الرائد.', about: 'المجموعة المالية هيرميس هي بنك الاستثمار الرائد في الشرق الأوسط.' },
+  { symbol: 'ETEL', name: 'المصرية للاتصالات', price: 32.1, pct: -0.62, high: 32.5, low: 31.8, open: 32.3, vol: '2.4M', cap: '54.7B', pe: '7.3', desc: 'المشغل الرئيسي.', about: 'المصرية للاتصالات هي الشركة الحكومية المشغلة لخدمات الاتصالات في مصر.' },
+  { symbol: 'FWRY', name: 'فوري', price: 8.95, pct: 4.07, high: 9.10, low: 8.60, open: 8.65, vol: '15.3M', cap: '15.2B', pe: '22.1', desc: 'أكبر منصة مدفوعات.', about: 'شركة فوري هي أكبر منصة مدفوعات إلكترونية في مصر.' },
 ]
+const EGX = [28400, 28420, 28390, 28450, 28480, 28430, 28510, 28490, 28530, 28600, 28550]
 
 function useMarketStatus() {
   const [s, setS] = useState({ open: false, text: 'مغلق' })
@@ -79,7 +80,6 @@ export default function App() {
   }
 
   const isAdmin = user?.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()
-
   const openStock = (s: Stock) => { setSelected(s); setPage('stock'); window.scrollTo(0,0) }
   const addArticle = async () => {
     if (!newTitle.trim() || !isAdmin) return
@@ -99,15 +99,12 @@ export default function App() {
     setEditingId(null)
   }
 
-  // STOCK PAGE
   if (page==='stock' && selected) {
     const chartData = timeframe==='1D' ? [selected.open, selected.open+0.3, selected.open+0.1, selected.open+0.8, selected.price-0.2, selected.price] 
       : timeframe==='1W' ? [80, 81, 80.5, 82, 84, 83, selected.price]
       : timeframe==='1M' ? [75, 77, 76, 79, 81, 80, 82, selected.price]
       : [70, 72, 75, 73, 78, 80, selected.price]
-    
     const related = articles.filter((a:any)=> a.title.toUpperCase().includes(selected.symbol) || a.title.includes(selected.name.split(' ')[0])).slice(0,3)
-
     return (
       <div dir="rtl" style={{ background: dark?'#0a0a0b':'#f5f5f7', color: dark?'white':'black', minHeight:'100vh', fontFamily:'system-ui' }}>
         <div style={{ position:'sticky', top:0, zIndex:40, background: dark?'#0a0a0b':'white', borderBottom:`1px solid ${dark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.08)'}`, padding:'16px 24px' }}>
@@ -119,9 +116,7 @@ export default function App() {
             </div>
           </div>
         </div>
-
         <div style={{ maxWidth:'1200px', margin:'0 auto', padding:'24px' }}>
-          {/* HEADER */}
           <div style={{ background: dark?'#141415':'white', borderRadius:'24px', padding:'24px', marginBottom:'24px' }}>
             <div style={{ display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap:'16px' }}>
               <div style={{ display:'flex', gap:'16px', alignItems:'center' }}>
@@ -134,10 +129,8 @@ export default function App() {
               </div>
             </div>
           </div>
-
           <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr', gap:'24px' }}>
             <div style={{ display:'flex', flexDirection:'column', gap:'24px' }}>
-              {/* CHART */}
               <div style={{ background: dark?'#141415':'white', borderRadius:'24px', padding:'24px' }}>
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px' }}>
                   <h3 style={{ fontWeight:800 }}>الرسم البياني</h3>
@@ -155,41 +148,33 @@ export default function App() {
                   </svg>
                 </div>
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr 1fr', gap:'12px', marginTop:'20px' }}>
-                  <div style={{ padding:'12px', borderRadius:'12px', background: dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.04)' }}><div style={{ fontSize:'11px', opacity:0.5 }}>افتتاح</div><div style={{ fontWeight:800, fontFamily:'monospace' }}>{selected.open}</div></div>
-                  <div style={{ padding:'12px', borderRadius:'12px', background: dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.04)' }}><div style={{ fontSize:'11px', opacity:0.5 }}>أعلى</div><div style={{ fontWeight:800, fontFamily:'monospace', color:'#22c55e' }}>{selected.high}</div></div>
-                  <div style={{ padding:'12px', borderRadius:'12px', background: dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.04)' }}><div style={{ fontSize:'11px', opacity:0.5 }}>أدنى</div><div style={{ fontWeight:800, fontFamily:'monospace', color:'#ef4444' }}>{selected.low}</div></div>
-                  <div style={{ padding:'12px', borderRadius:'12px', background: dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.04)' }}><div style={{ fontSize:'11px', opacity:0.5 }}>حجم</div><div style={{ fontWeight:800, fontFamily:'monospace' }}>{selected.vol}</div></div>
+                  <div style={{ padding:'12px', borderRadius:'12px', background: dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.04)' }}><div style={{ fontSize:'11px', opacity:0.5 }}>افتتاح</div><div style={{ fontWeight:800 }}>{selected.open}</div></div>
+                  <div style={{ padding:'12px', borderRadius:'12px', background: dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.04)' }}><div style={{ fontSize:'11px', opacity:0.5 }}>أعلى</div><div style={{ fontWeight:800, color:'#22c55e' }}>{selected.high}</div></div>
+                  <div style={{ padding:'12px', borderRadius:'12px', background: dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.04)' }}><div style={{ fontSize:'11px', opacity:0.5 }}>أدنى</div><div style={{ fontWeight:800, color:'#ef4444' }}>{selected.low}</div></div>
+                  <div style={{ padding:'12px', borderRadius:'12px', background: dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.04)' }}><div style={{ fontSize:'11px', opacity:0.5 }}>حجم</div><div style={{ fontWeight:800 }}>{selected.vol}</div></div>
                 </div>
               </div>
-
-              {/* ABOUT */}
               <div style={{ background: dark?'#141415':'white', borderRadius:'24px', padding:'24px' }}>
                 <h3 style={{ fontWeight:800, marginBottom:'12px' }}>عن الشركة</h3>
                 <p style={{ fontSize:'14px', lineHeight:1.7, opacity:0.7 }}>{selected.about}</p>
-                <div style={{ marginTop:'16px', padding:'12px', borderRadius:'12px', background: 'rgba(59,130,246,0.08)', border:'1px solid rgba(59,130,246,0.15)' }}>
-                  <div style={{ fontSize:'12px', fontWeight:700, color:'#60a5fa' }}>💡 {selected.desc}</div>
-                </div>
               </div>
             </div>
-
             <div style={{ display:'flex', flexDirection:'column', gap:'24px' }}>
               <div style={{ background: dark?'#141415':'white', borderRadius:'24px', padding:'20px' }}>
                 <h3 style={{ fontWeight:800, marginBottom:'16px' }}>تداول</h3>
                 <div style={{ display:'flex', flexDirection:'column', gap:'12px' }}>
-                  <button onClick={()=>alert(`تمت إضافة ${selected.symbol} للمحفظة (تجريبي)`)} style={{ padding:'14px', borderRadius:'16px', background:'#22c55e', color:'black', border:'none', fontWeight:900, cursor:'pointer' }}>+ إضافة للمحفظة</button>
+                  <button onClick={()=>alert(`تمت إضافة ${selected.symbol}`)} style={{ padding:'14px', borderRadius:'16px', background:'#22c55e', color:'black', border:'none', fontWeight:900, cursor:'pointer' }}>+ إضافة للمحفظة</button>
                   <button onClick={()=>alert('تنبيه سعري قريبا')} style={{ padding:'14px', borderRadius:'16px', background: dark?'white':'black', color: dark?'black':'white', border:'none', fontWeight:800, cursor:'pointer' }}>🔔 تنبيه سعري</button>
-                  <div style={{ fontSize:'11px', opacity:0.4, textAlign:'center', marginTop:'8px' }}>التداول الحقيقي قريبا - حاليا محاكاة فقط</div>
                 </div>
               </div>
-
               <div style={{ background: dark?'#141415':'white', borderRadius:'24px', padding:'20px' }}>
                 <h3 style={{ fontWeight:800, marginBottom:'16px' }}>📰 أخبار {selected.symbol}</h3>
-                {related.length ? related.map((a:any)=>(
+                {articles.filter((a:any)=> a.title.toUpperCase().includes(selected.symbol)).slice(0,3).map((a:any)=>(
                   <div key={a.id} style={{ padding:'12px 0', borderBottom:`1px solid ${dark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)'}` }}>
                     <div style={{ fontSize:'12px', fontWeight:700 }}>{a.title}</div>
-                    <div style={{ fontSize:'11px', opacity:0.5, marginTop:'4px' }}>{a.tag} • {a.created_at?.toString().slice(0,10)}</div>
+                    <div style={{ fontSize:'11px', opacity:0.5 }}>{a.tag}</div>
                   </div>
-                )) : <div style={{ fontSize:'12px', opacity:0.5 }}>لا يوجد أخبار مرتبطة حاليا</div>}
+                ))}
               </div>
             </div>
           </div>
@@ -207,7 +192,7 @@ export default function App() {
       <div dir="rtl" style={{ background: dark?'#0a0a0b':'#f5f5f7', color: dark?'white':'black', minHeight:'100vh', fontFamily:'system-ui' }}>
         <div style={{ maxWidth:'800px', margin:'0 auto', padding:'24px' }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'32px' }}>
-            <div style={{ display:'flex', gap:'12px', alignItems:'center' }}><div style={{ width:'48px', height:'48px', borderRadius:'14px', background:'#22c55e', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'24px' }}>👑</div><div><h1 style={{ fontSize:'24px', fontWeight:900 }}>لوحة تحكم الأدمن</h1><p style={{ fontSize:'12px', opacity:0.5 }}>الخطوة 2/3 • صفحة السهم Pro جاهزة ✅</p></div></div>
+            <div style={{ display:'flex', gap:'12px', alignItems:'center' }}><div style={{ width:'48px', height:'48px', borderRadius:'14px', background:'#22c55e', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'24px' }}>👑</div><div><h1 style={{ fontSize:'24px', fontWeight:900 }}>لوحة تحكم الأدمن</h1><p style={{ fontSize:'12px', opacity:0.5 }}>تم إصلاح الشاشة السوداء ✅</p></div></div>
             <button onClick={()=>setPage('home')} style={{ padding:'10px 20px', borderRadius:'20px', background: dark?'white':'black', color: dark?'black':'white', border:'none', fontWeight:700, cursor:'pointer' }}>← الموقع</button>
           </div>
           <div style={{ background: dark?'#141415':'white', borderRadius:'20px', padding:'20px', marginBottom:'24px', border:'2px solid #22c55e' }}>
@@ -253,7 +238,6 @@ export default function App() {
           </div>
         </div>
       </div>
-
       {showAuth && (
         <div onClick={()=>setShowAuth(false)} style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.7)', zIndex:100, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
           <div onClick={e=>e.stopPropagation()} style={{ background: dark?'#141415':'white', borderRadius:'24px', padding:'24px', width:'100%', maxWidth:'360px' }}>
@@ -267,17 +251,16 @@ export default function App() {
           </div>
         </div>
       )}
-
       <div style={{ maxWidth:'1400px', margin:'0 auto', padding:'24px' }}>
         <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr', gap:'24px' }}>
           <div style={{ display:'flex', flexDirection:'column', gap:'24px' }}>
             <div style={{ background: dark?'#141415':'white', borderRadius:'24px', padding:'24px' }}>
-              <div style={{ display:'flex', justifyContent:'space-between', marginBottom:'24px' }}><div><h2 style={{ fontSize:'24px', fontWeight:900 }}>EGX30</h2><div style={{ fontSize:'13px', opacity:0.4 }}>المؤشر الرئيسي • دوس على أي سهم للتفاصيل الجديدة</div></div><div style={{ textAlign:'left' }}><div style={{ fontSize:'32px', fontWeight:700 }}>28,450.32</div><div style={{ fontSize:'13px', color:'#22c55e' }}>+342.5</div></div></div>
+              <div style={{ display:'flex', justifyContent:'space-between', marginBottom:'24px' }}><div><h2 style={{ fontSize:'24px', fontWeight:900 }}>EGX30</h2><div style={{ fontSize:'13px', opacity:0.4 }}>المؤشر الرئيسي</div></div><div style={{ textAlign:'left' }}><div style={{ fontSize:'32px', fontWeight:700 }}>28,450.32</div><div style={{ fontSize:'13px', color:'#22c55e' }}>+342.5</div></div></div>
               <div style={{ height:'200px' }}><svg viewBox="0 0 400 100" style={{ width:'100%', height:'100%' }}><path d={`M0,${100-(EGX[0]-28350)/3} ${EGX.map((v,i)=>`L${(i/(EGX.length-1))*400},${100-(v-28350)/3}`).join(' ')}`} fill="none" stroke="#22c55e" strokeWidth="2.5" /></svg></div>
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(180px, 1fr))', gap:'16px' }}>
               {STOCKS.map((s) => (
-                <div key={s.symbol} onClick={()=>openStock(s)} style={{ background: dark?'#141415':'white', borderRadius:'20px', padding:'16px', cursor:'pointer', border:'1px solid transparent', transition:'all 0.2s' }} onMouseEnter={e=>{ (e.currentTarget as any).style.borderColor='#22c55e'; (e.currentTarget as any).style.transform='translateY(-2px)' }} onMouseLeave={e=>{ (e.currentTarget as any).style.borderColor='transparent'; (e.currentTarget as any).style.transform='translateY(0)' }}>
+                <div key={s.symbol} onClick={()=>openStock(s)} style={{ background: dark?'#141415':'white', borderRadius:'20px', padding:'16px', cursor:'pointer', border:'1px solid transparent' }}>
                   <div style={{ display:'flex', justifyContent:'space-between' }}><span style={{ fontWeight:700 }}>{s.symbol}</span><span style={{ fontSize:'11px', padding:'2px 8px', borderRadius:'10px', background: s.pct>=0?'rgba(34,197,94,0.15)':'rgba(239,68,68,0.15)', color: s.pct>=0?'#22c55e':'#ef4444' }}>{s.pct>0?'+':''}{s.pct}%</span></div>
                   <div style={{ fontSize:'11px', opacity:0.4, marginTop:'8px' }}>{s.name}</div>
                   <div style={{ fontSize:'22px', fontWeight:800, marginTop:'12px' }}>{s.price} ج.م</div>
